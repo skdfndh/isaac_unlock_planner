@@ -10,7 +10,7 @@ Huiji Completion Mark 表 ───────> data/unlocks.js
 Huiji 挑战成就表 + challenge_rewards.json
                              ───> data/challenges.js
                                    │
-Huiji 全成就页 + achievement_index.json
+Huiji 全成就页 + achievement_index.json + achievement_extras.json
                              ───> data/achievements.js
                                    │
 EID 中英文效果（构建阶段） ─────> data/effects.js
@@ -44,12 +44,12 @@ tools/recommendation_seed.json       tools/challenge_priority.json
 - 34 个角色（17 表 + 17 堕化）
 - 13 个 Completion Mark / Boss 目标
 - 45 个挑战解锁目标
-- 201 条剩余成就列表：8 条主线、33 条角色解锁、83 条次数 / 累计型、77 条完成类
+- 其余成就页显示 301 条：8 条主线、32 条角色解锁、34 条挑战开放、45 条挑战通关、83 条次数 / 累计型、99 条完成类
 - 340 条规范化解锁规则，其中 34 条是多 Boss 捆绑规则
 - 角色/Boss 推荐配置按 **角色-Boss 对** 记录在 `tools/recommendation_seed.json`；未记录的组合运行时默认 `normal`
 - EID 与本地机制兜底目前能为 **307 / 340** 条规则生成效果数据；剩余 33 条均为 Baby / 外观类解锁
 - 挑战优先级：14 条 `strong`、13 条 `recommended`、18 条 `normal`
-- 其他成就页目前 108 条成就带有可解析的 EID 实体奖励，覆盖收藏品、饰品、卡牌和药丸
+- 其余成就页目前 108 条成就带有可解析的 EID 实体奖励，覆盖收藏品、饰品、卡牌和药丸
 
 ## 0. 从零重建全部生成数据
 
@@ -77,7 +77,7 @@ python tools/rebuild_data.py "你的Project存档成就页面.html" --achievemen
 
 它还会运行 `validate_priorities.py` 检查优先级 JSON。优先级 JSON 本身是配置源，不会被 clean rebuild 改写。如果已经有最新 EID 构建缓存，可以省略 `--refresh-eid`。
 
-如果只传第一个 HTML，不传 `--achievements-html`，统一入口会跳过 `data/achievements.js` 并保留现有文件。这种模式不是完整重建，只适合不更新“其他成就页”数据的情况。
+如果只传第一个 HTML，不传 `--achievements-html`，统一入口会跳过 `data/achievements.js` 并保留现有文件。这种模式不是完整重建，只适合不更新“其余成就页”数据的情况。
 
 ## 1. 重新从灰机 Wiki 保存页生成矩阵
 
@@ -101,15 +101,18 @@ python tools/build_challenges.py "你的成就页面.html"
 
 脚本会把灰机页解析出的 `prerequisiteAchievementId` / `rewardAchievementId` 与 `tools/challenge_rewards.json` 中的奖励元数据合并，从零生成 45 条挑战数据。`data/challenges.js` 不包含 priority。挑战页面通过前置成就 ID 判断挑战是否已经开放，通过奖励成就 ID 判断挑战是否已经完成。
 
-## 3. 重新生成其他成就页数据
+## 3. 重新生成其余成就页数据
 
-把灰机 Wiki 的全成就页 `https://isaac.huijiwiki.com/wiki/%E6%88%90%E5%B0%B1` 另存为 HTML，并确认 `tools/achievement_index.json` 中维护了四类成就 ID 后运行：
+把灰机 Wiki 的全成就页 `https://isaac.huijiwiki.com/wiki/%E6%88%90%E5%B0%B1` 另存为 HTML，并确认 `tools/achievement_index.json` 中维护了原有分类、`tools/achievement_extras.json` 中维护了挑战开放成就及版本条件后运行：
 
 ```bash
 python tools/build_achievements.py "灰机的全成就页地址.html"
+python tools/validate_achievement_coverage.py
 ```
 
 脚本会从全成就页读取成就名称、解锁条件、奖励和奖励链接，再按 `tools/achievement_index.json` 分为主线成就、角色解锁类、次数 / 累计型成就、完成类成就。
+
+`tools/achievement_extras.json` 补入 34 条挑战开放成就和成就 #346，并覆盖已核对的版本条件。挑战通关的 45 条成就复用 `data/challenges.js`，按挑战 ID 生成“通过挑战”条件。
 
 `tools/achievement_index.json` 中的 `cumulativeGroups` 用于保持相似累计链在列表中连续显示，`cumulativeSingles` 则保存不需要分组的累计型成就。
 
@@ -145,7 +148,7 @@ tools/challenge_priority.json
 
 每条只保存 `challengeId + priority`。`data/challenges.js` 不保存优先级。
 
-其他成就页优先级也保存在运行时推荐配置中，字段为 `achievements`；当前没有内置推荐等级时全部按 `normal` 初始化，用户可在每行最右侧菜单中修改。
+其余成就页的非挑战成就优先级保存在运行时推荐配置的 `achievements` 字段；挑战通关成就沿用 `challenges` 字段。当前没有内置推荐等级时全部按 `normal` 初始化，用户可在每行最右侧菜单中修改。
 
 修改这两个 JSON 后不需要重建游戏数据，只需发布前运行：
 
@@ -232,7 +235,7 @@ window.ISAAC_OVERRIDES = {
 
 - 页面打开时默认按重要度排序。
 - 挑战页默认同样按重要度排序；切换“默认顺序”后按挑战 ID 从小到大排列。
-- 其他成就页默认按重要度排序；角色解锁类没有“奖励”列，其余成就列表保留奖励名称与效果。
+- 其余成就页默认按重要度排序；角色解锁类没有“奖励”列，其余成就列表保留奖励名称与效果。成就 #199 已在角色 / Boss 页展示，因此不在其余成就页重复列出。
 - 主线成就上方有横向 SVG 进度图；读取存档后，未解锁成就节点会显示为暗色。
 - Boss 默认顺序以 Boss Rush 开头，其次为妈妈的心。
 - 没有 EID 描述且不属于 Baby 的奖励，会显示统一说明：`解锁「XXX」这一非收藏道具 / 机制内容。`

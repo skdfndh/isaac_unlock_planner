@@ -151,7 +151,7 @@ h2 { margin: 4px 0 0; font-size: 23px; }
 
 .achievement-sprite {
   width: 64px; height: 64px; flex: 0 0 64px; display: inline-block;
-  background-image: url("./assets/achievement/Achievement_sprite.jpg?v=20260826021921");
+  background-image: url("./assets/achievement/Achievement_sprite.jpg?v=20260930145212");
   background-repeat: no-repeat;
   background-size: 1280px 2112px;
   background-position: var(--ach-x) var(--ach-y);
@@ -202,9 +202,10 @@ code { background: rgba(255,255,255,.05); padding: 2px 5px; border-radius: 5px; 
 
 .effect-text { white-space: pre-line; }
 
-/* Curated achievement lists */
+/* 成就列表 */
 .achievement-results { display: grid; gap: 34px; }
 .achievement-results[hidden] { display: none; }
+.achievement-overview { color: var(--muted); font-size: 13px; }
 .achievement-category { min-width: 0; }
 .achievement-category-heading {
   display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 12px;
@@ -230,7 +231,6 @@ code { background: rgba(255,255,255,.05); padding: 2px 5px; border-radius: 5px; 
 .achievement-reward > strong, .achievement-reward > span { display: block; }
 .achievement-reward-effect { margin-top: 5px; color: rgba(243,238,231,.8); white-space: pre-line; }
 .achievement-table tr.sequence-start:not(:first-child) td { border-top: 2px solid rgba(231,196,123,.52); }
-.default-character-row td { background: rgba(59,81,68,.42); }
 .achievement-character-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-items: start; }
 .achievement-character-columns > div { min-width: 0; }
 .achievement-graph-wrap {

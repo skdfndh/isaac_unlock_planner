@@ -1590,7 +1590,7 @@ window.ISAAC_ACHIEVEMENT_DATA = {
     {
       "achievementId": 373,
       "name": "天使棱镜",
-      "condition": "击败乌列和加百列共20次。",
+      "condition": "累计击败天使10次。",
       "rewardName": "天使棱镜",
       "rewardEffect": "棱镜环绕物\n友方泪弹击中它会分裂成4个",
       "rewardEntities": [
@@ -2192,7 +2192,7 @@ window.ISAAC_ACHIEVEMENT_DATA = {
     {
       "achievementId": 235,
       "name": "1001%！！",
-      "condition": "收集图鉴中的所有道具并解锁重生和胎衣版本中所有成就和结局。",
+      "condition": "在《忏悔+》中，解锁任意275个成就，并在收藏图鉴中收集至少510件道具。",
       "rewardName": "",
       "rewardEffect": "",
       "rewardEntities": [],
@@ -2458,8 +2458,18 @@ window.ISAAC_ACHIEVEMENT_DATA = {
     {
       "achievementId": 339,
       "name": "1000000%",
-      "condition": "",
+      "condition": "在《忏悔+》中，解锁任意402个成就，并在收藏图鉴中收集至少510件道具。",
       "rewardName": "",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 346,
+      "name": "邪恶的怪物正在接近！",
+      "condition": "用3个不同的非堕化角色击败???。",
+      "rewardName": "解锁新首领",
       "rewardEffect": "",
       "rewardEntities": [],
       "collectibleIds": [],
@@ -3115,6 +3125,348 @@ window.ISAAC_ACHIEVEMENT_DATA = {
       "name": "读它！",
       "condition": "击败妈妈。",
       "rewardName": "",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    }
+  ],
+  "challengeUnlock": [
+    {
+      "achievementId": 157,
+      "name": "黑暗降临",
+      "condition": "击败妈妈的心脏11次，并用夏娃击败???。",
+      "rewardName": "挑战 #4：黑暗降临",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 158,
+      "name": "坦克",
+      "condition": "在一局游戏中同时拥有至少7个红心容器。",
+      "rewardName": "挑战 #5：坦克",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 159,
+      "name": "太阳系",
+      "condition": "累计击败妈妈的心脏3次。",
+      "rewardName": "挑战 #6：太阳系",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 160,
+      "name": "自杀之王",
+      "condition": "击败妈妈的心脏11次，并解锁拉撒路。",
+      "rewardName": "挑战 #7：自杀之王",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 161,
+      "name": "好奇害死猫",
+      "condition": "变身嗝屁猫。",
+      "rewardName": "挑战 #8：好奇害死猫",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 162,
+      "name": "拆迁办",
+      "condition": "累计击败妈妈的心脏9次。",
+      "rewardName": "挑战 #9：拆迁办",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 163,
+      "name": "诅咒！",
+      "condition": "在一局游戏中同时拥有至少7个红心容器。",
+      "rewardName": "挑战 #10：诅咒！",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 164,
+      "name": "玻璃大炮",
+      "condition": "通过挑战 #19「顾家男人」、击败分身洛基，并解锁犹大和「它还活着！」。",
+      "rewardName": "挑战 #11：玻璃大炮",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 165,
+      "name": "顾家男人",
+      "condition": "在一局游戏中从天使处获得两块钥匙碎片。",
+      "rewardName": "挑战 #19：顾家男人",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 166,
+      "name": "返璞归真",
+      "condition": "击败妈妈。",
+      "rewardName": "挑战 #20：返璞归真",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 265,
+      "name": "超超超超超大层",
+      "condition": "击败妈妈。",
+      "rewardName": "挑战 #21：超超超超超大层",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 266,
+      "name": "快马加鞭！",
+      "condition": "击败妈妈。",
+      "rewardName": "挑战 #22：快马加鞭！",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 267,
+      "name": "蓝色炸弹人",
+      "condition": "摧毁10块标记石头，并累计击败妈妈的心脏11次。",
+      "rewardName": "挑战 #23：蓝色炸弹人",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 268,
+      "name": "充钱游戏",
+      "condition": "在《忏悔+》中，用该隐击败以撒。",
+      "rewardName": "挑战 #24：充钱游戏",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 269,
+      "name": "没心没肺",
+      "condition": "击败妈妈。",
+      "rewardName": "挑战 #25：没心没肺",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 270,
+      "name": "以撒传说！",
+      "condition": "击败超级撒但，并解锁底片。",
+      "rewardName": "挑战 #26：以撒传说！",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 271,
+      "name": "脑子！",
+      "condition": "累计击败以撒5次。",
+      "rewardName": "挑战 #27：脑子！",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 272,
+      "name": "彩虹日！",
+      "condition": "击败妈妈。",
+      "rewardName": "挑战 #28：彩虹日！",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 273,
+      "name": "俄南连击",
+      "condition": "解锁犹大和「它还活着！」。",
+      "rewardName": "挑战 #29：俄南连击",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 274,
+      "name": "守护者",
+      "condition": "击败妈妈。",
+      "rewardName": "挑战 #30：守护者",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 277,
+      "name": "本末倒置",
+      "condition": "击败超级撒但，并解锁底片。",
+      "rewardName": "挑战 #31：本末倒置",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 278,
+      "name": "愚人节",
+      "condition": "击败妈妈。",
+      "rewardName": "挑战 #32：愚人节",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 279,
+      "name": "宝可萌",
+      "condition": "累计击败妈妈的心脏11次。",
+      "rewardName": "挑战 #33：宝可萌",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 280,
+      "name": "终极困难",
+      "condition": "击败超级撒但，并解锁底片。",
+      "rewardName": "挑战 #34：终极困难",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 281,
+      "name": "乒乓",
+      "condition": "累计击败以撒5次。",
+      "rewardName": "挑战 #35：乒乓",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 508,
+      "name": "血腥玛丽",
+      "condition": "解锁伯大尼、血袋和「它还活着！」。",
+      "rewardName": "挑战 #37：血腥玛丽",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 509,
+      "name": "圣火洗礼",
+      "condition": "用伯大尼击败撒但、累计击败妈妈的心脏11次，并解锁抹大拉的信仰。",
+      "rewardName": "挑战 #38：圣火洗礼",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 510,
+      "name": "以撒织梦岛",
+      "condition": "击败母亲。",
+      "rewardName": "挑战 #39：以撒织梦岛",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 511,
+      "name": "重影幻视",
+      "condition": "击败母亲。",
+      "rewardName": "挑战 #40：重影幻视",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 512,
+      "name": "异食游戏",
+      "condition": "累计击败妈妈的心脏11次，并解锁弹珠袋。",
+      "rewardName": "挑战 #41：异食游戏",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 513,
+      "name": "烫手山芋",
+      "condition": "解锁堕化遗骸。",
+      "rewardName": "挑战 #42：烫手山芋",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 514,
+      "name": "大量过牌！",
+      "condition": "解锁堕化该隐。",
+      "rewardName": "挑战 #43：大量过牌！",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 515,
+      "name": "赤键救赎",
+      "condition": "解锁堕化雅各。",
+      "rewardName": "挑战 #44：赤键救赎",
+      "rewardEffect": "",
+      "rewardEntities": [],
+      "collectibleIds": [],
+      "sequenceGroup": null
+    },
+    {
+      "achievementId": 516,
+      "name": "删了这个",
+      "condition": "解锁堕化伊甸。",
+      "rewardName": "挑战 #45：删了这个",
       "rewardEffect": "",
       "rewardEntities": [],
       "collectibleIds": [],

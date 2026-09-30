@@ -1,0 +1,46 @@
+{
+  "challengeUnlock": [
+    {"achievementId": 157, "challengeId": 4, "name": "黑暗降临", "condition": "击败妈妈的心脏11次，并用夏娃击败???。"},
+    {"achievementId": 158, "challengeId": 5, "name": "坦克", "condition": "在一局游戏中同时拥有至少7个红心容器。"},
+    {"achievementId": 159, "challengeId": 6, "name": "太阳系", "condition": "累计击败妈妈的心脏3次。"},
+    {"achievementId": 160, "challengeId": 7, "name": "自杀之王", "condition": "击败妈妈的心脏11次，并解锁拉撒路。"},
+    {"achievementId": 161, "challengeId": 8, "name": "好奇害死猫", "condition": "变身嗝屁猫。"},
+    {"achievementId": 162, "challengeId": 9, "name": "拆迁办", "condition": "累计击败妈妈的心脏9次。"},
+    {"achievementId": 163, "challengeId": 10, "name": "诅咒！", "condition": "在一局游戏中同时拥有至少7个红心容器。"},
+    {"achievementId": 164, "challengeId": 11, "name": "玻璃大炮", "condition": "通过挑战 #19「顾家男人」、击败分身洛基，并解锁犹大和「它还活着！」。"},
+    {"achievementId": 165, "challengeId": 19, "name": "顾家男人", "condition": "在一局游戏中从天使处获得两块钥匙碎片。"},
+    {"achievementId": 166, "challengeId": 20, "name": "返璞归真", "condition": "击败妈妈。"},
+    {"achievementId": 265, "challengeId": 21, "name": "超超超超超大层", "condition": "击败妈妈。"},
+    {"achievementId": 266, "challengeId": 22, "name": "快马加鞭！", "condition": "击败妈妈。"},
+    {"achievementId": 267, "challengeId": 23, "name": "蓝色炸弹人", "condition": "摧毁10块标记石头，并累计击败妈妈的心脏11次。"},
+    {"achievementId": 268, "challengeId": 24, "name": "充钱游戏", "condition": "在《忏悔+》中，用该隐击败以撒。"},
+    {"achievementId": 269, "challengeId": 25, "name": "没心没肺", "condition": "击败妈妈。"},
+    {"achievementId": 270, "challengeId": 26, "name": "以撒传说！", "condition": "击败超级撒但，并解锁底片。"},
+    {"achievementId": 271, "challengeId": 27, "name": "脑子！", "condition": "累计击败以撒5次。"},
+    {"achievementId": 272, "challengeId": 28, "name": "彩虹日！", "condition": "击败妈妈。"},
+    {"achievementId": 273, "challengeId": 29, "name": "俄南连击", "condition": "解锁犹大和「它还活着！」。"},
+    {"achievementId": 274, "challengeId": 30, "name": "守护者", "condition": "击败妈妈。"},
+    {"achievementId": 277, "challengeId": 31, "name": "本末倒置", "condition": "击败超级撒但，并解锁底片。"},
+    {"achievementId": 278, "challengeId": 32, "name": "愚人节", "condition": "击败妈妈。"},
+    {"achievementId": 279, "challengeId": 33, "name": "宝可萌", "condition": "累计击败妈妈的心脏11次。"},
+    {"achievementId": 280, "challengeId": 34, "name": "终极困难", "condition": "击败超级撒但，并解锁底片。"},
+    {"achievementId": 281, "challengeId": 35, "name": "乒乓", "condition": "累计击败以撒5次。"},
+    {"achievementId": 508, "challengeId": 37, "name": "血腥玛丽", "condition": "解锁伯大尼、血袋和「它还活着！」。"},
+    {"achievementId": 509, "challengeId": 38, "name": "圣火洗礼", "condition": "用伯大尼击败撒但、累计击败妈妈的心脏11次，并解锁抹大拉的信仰。"},
+    {"achievementId": 510, "challengeId": 39, "name": "以撒织梦岛", "condition": "击败母亲。"},
+    {"achievementId": 511, "challengeId": 40, "name": "重影幻视", "condition": "击败母亲。"},
+    {"achievementId": 512, "challengeId": 41, "name": "异食游戏", "condition": "累计击败妈妈的心脏11次，并解锁弹珠袋。"},
+    {"achievementId": 513, "challengeId": 42, "name": "烫手山芋", "condition": "解锁堕化遗骸。"},
+    {"achievementId": 514, "challengeId": 43, "name": "大量过牌！", "condition": "解锁堕化该隐。"},
+    {"achievementId": 515, "challengeId": 44, "name": "赤键救赎", "condition": "解锁堕化雅各。"},
+    {"achievementId": 516, "challengeId": 45, "name": "删了这个", "condition": "解锁堕化伊甸。"}
+  ],
+  "completion": [
+    {"achievementId": 346, "name": "邪恶的怪物正在接近！", "condition": "用3个不同的非堕化角色击败???。", "rewardName": "解锁新首领"}
+  ],
+  "conditionOverrides": {
+    "235": "在《忏悔+》中，解锁任意275个成就，并在收藏图鉴中收集至少510件道具。",
+    "339": "在《忏悔+》中，解锁任意402个成就，并在收藏图鉴中收集至少510件道具。",
+    "373": "累计击败天使10次。"
+  }
+}

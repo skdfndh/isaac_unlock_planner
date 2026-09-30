@@ -45,12 +45,22 @@
   const rulesById = new Map(DATA.unlockRules.map((rule) => [rule.id, rule]));
   const validPairs = new Set(DATA.unlockRules.flatMap((rule) => rule.bossIds.map((bossId) => pairKey(rule.characterId, bossId))));
   const validChallengeIds = new Set(CHALLENGES.map((x) => Number(x.challengeId)));
+  const bossAchievementIds = new Set(DATA.unlockRules.map((rule) => Number(rule.achievementId)));
+  const challengeClearAchievements = CHALLENGES.map((challenge) => ({
+    achievementId: Number(challenge.rewardAchievementId),
+    challengeId: Number(challenge.challengeId),
+    name: challenge.rewardName,
+    condition: `通过挑战 #${challenge.challengeId}。`,
+    rewardName: challenge.rewardName,
+    rewardEffect: challenge.effect
+  }));
   const achievementLists = [
     ACHIEVEMENTS.main,
     ACHIEVEMENTS.characters.normal,
     ACHIEVEMENTS.characters.tainted,
     ACHIEVEMENTS.cumulative,
-    ACHIEVEMENTS.completion
+    ACHIEVEMENTS.completion,
+    ACHIEVEMENTS.challengeUnlock
   ];
   const validAchievementListIds = new Set(achievementLists.flat().map((x) => Number(x.achievementId)));
   const builtinProfiles = new Map((PROFILE_BUNDLE.profiles || []).map((x) => [x.id, x]));
@@ -359,12 +369,14 @@
 
   function unlockStatus(aid) {
     if (!state.save) return null;
+    if (aid >= state.save.achievements.length) return 'unavailable';
     return state.save.isAchievementUnlocked(aid);
   }
 
   function statusBadge(unlocked) {
     if (unlocked === true) return '<span class="status-badge unlocked">已解锁</span>';
     if (unlocked === false) return '<span class="status-badge locked">未解锁</span>';
+    if (unlocked === 'unavailable') return '<span class="status-badge unknown">当前存档无此成就</span>';
     return '<span class="status-badge unknown">未载入存档</span>';
   }
 
@@ -943,10 +955,10 @@
   }
 
   function sortedAchievementRows(entries) {
-    let rows = entries.map((entry, order) => ({
+    let rows = entries.filter((entry) => !bossAchievementIds.has(Number(entry.achievementId))).map((entry, order) => ({
       entry,
       order,
-      priority: achievementPriority(entry.achievementId),
+      priority: entry.challengeId == null ? achievementPriority(entry.achievementId) : challengePriority(entry.challengeId),
       unlocked: unlockStatus(entry.achievementId)
     }));
     if (!state.showUnlocked && state.save) rows = rows.filter((row) => row.unlocked !== true);
@@ -968,18 +980,11 @@
     return `<div class="achievement-reward"><strong>${esc(entry.rewardName)}</strong>${effect}</div>`;
   }
 
-  function achievementTable(entries, { includeIsaac = false, characterStartIndex = null, showReward = true } = {}) {
+  function achievementTable(entries, { characterStartIndex = null, showReward = true } = {}) {
     const rows = sortedAchievementRows(entries);
-    const isaac = DATA.characters[0];
     const characterByAchievement = characterStartIndex == null
       ? new Map()
       : new Map(entries.map((entry, index) => [entry.achievementId, DATA.characters[characterStartIndex + index]]));
-    const isaacRow = includeIsaac && (state.showUnlocked || !state.save)
-      ? `<tr class="unlock-row priority-normal default-character-row">
-          <td><div class="reward-cell">${safeImage([characterLocalImage(isaac), isaac.image], 'reward-thumb')}<div><div class="reward-name">以撒${priorityPill('normal')}</div><div class="meta-line">无对应成就 ID</div></div></div></td>
-          <td><div class="achievement-condition">游戏开始时默认开放。</div></td>${showReward ? '<td><strong>以撒</strong></td>' : ''}<td>${statusBadge(true)}</td><td class="row-options"></td>
-        </tr>`
-      : '';
     const body = rows.map(({ entry, priority, unlocked }, index) => {
       const groupStart = entry.sequenceGroup && (index === 0 || rows[index - 1].entry.sequenceGroup !== entry.sequenceGroup)
         ? ' sequence-start'
@@ -994,15 +999,17 @@
         <td><div class="achievement-condition">${esc(entry.condition)}</div></td>
         ${showReward ? `<td>${achievementReward(entry)}</td>` : ''}
         <td>${statusBadge(unlocked)}</td>
-        <td class="row-options">${rowMenuButton('achievement', entry.achievementId, priority)}</td>
+        <td class="row-options">${entry.challengeId == null
+          ? rowMenuButton('achievement', entry.achievementId, priority)
+          : rowMenuButton('challenge', entry.challengeId, priority)}</td>
       </tr>`;
     }).join('');
     const columnCount = showReward ? 5 : 4;
-    const empty = !isaacRow && !body
+    const empty = !body
       ? `<tr class="empty-state"><td colspan="${columnCount}"><strong>这一类成就已经全部完成</strong><span>打开“显示已解锁”可以重新查看完整列表。</span></td></tr>`
       : '';
     const rewardHeader = showReward ? '<th>奖励</th>' : '';
-    return `<div class="table-wrap achievement-table-wrap"><table class="unlock-table achievement-table${showReward ? '' : ' without-reward'}"><thead><tr><th>成就图标和名称</th><th>解锁条件</th>${rewardHeader}<th>是否解锁</th><th class="options-column" aria-label="选项"></th></tr></thead><tbody>${isaacRow}${body}${empty}</tbody></table></div>`;
+    return `<div class="table-wrap achievement-table-wrap"><table class="unlock-table achievement-table${showReward ? '' : ' without-reward'}"><thead><tr><th>成就图标和名称</th><th>解锁条件</th>${rewardHeader}<th>是否解锁</th><th class="options-column" aria-label="选项"></th></tr></thead><tbody>${body}${empty}</tbody></table></div>`;
   }
 
   function achievementGraph() {
@@ -1027,16 +1034,21 @@
   }
 
   function achievementSection(title, count, content, extraClass = '') {
-    return `<section class="achievement-category ${extraClass}"><div class="achievement-category-heading"><div><span class="section-kicker">其他成就</span><h2>${esc(title)}</h2></div><span>${count} 个成就</span></div>${content}</section>`;
+    return `<section class="achievement-category ${extraClass}"><div class="achievement-category-heading"><div><span class="section-kicker">其余成就</span><h2>${esc(title)}</h2></div><span>${count} 个成就</span></div>${content}</section>`;
   }
 
   function renderAchievementRows() {
-    const characterColumns = `<div class="achievement-character-columns"><div><h3>表角色</h3>${achievementTable(ACHIEVEMENTS.characters.normal, { includeIsaac: true, characterStartIndex: 1, showReward: false })}</div><div><h3>里角色</h3>${achievementTable(ACHIEVEMENTS.characters.tainted, { characterStartIndex: 17, showReward: false })}</div></div>`;
+    const visibleCount = (entries) => entries.filter((entry) => !bossAchievementIds.has(Number(entry.achievementId))).length;
+    const totalCount = achievementLists.reduce((count, entries) => count + visibleCount(entries), challengeClearAchievements.length);
+    const characterColumns = `<div class="achievement-character-columns"><div><h3>表角色</h3>${achievementTable(ACHIEVEMENTS.characters.normal, { characterStartIndex: 1, showReward: false })}</div><div><h3>里角色</h3>${achievementTable(ACHIEVEMENTS.characters.tainted, { characterStartIndex: 17, showReward: false })}</div></div>`;
     el.achievementResults.innerHTML = [
-      achievementSection('主线成就', ACHIEVEMENTS.main.length, achievementGraph() + achievementTable(ACHIEVEMENTS.main), 'main-achievements'),
-      achievementSection('角色解锁类', ACHIEVEMENTS.characters.normal.length + ACHIEVEMENTS.characters.tainted.length, characterColumns),
-      achievementSection('次数 / 累计型成就', ACHIEVEMENTS.cumulative.length, achievementTable(ACHIEVEMENTS.cumulative)),
-      achievementSection('完成类成就', ACHIEVEMENTS.completion.length, achievementTable(ACHIEVEMENTS.completion))
+      `<div class="achievement-overview">共 ${totalCount} 个成就（已排除角色 / Boss 页展示的成就）</div>`,
+      achievementSection('主线成就', visibleCount(ACHIEVEMENTS.main), achievementGraph() + achievementTable(ACHIEVEMENTS.main), 'main-achievements'),
+      achievementSection('角色解锁类', visibleCount(ACHIEVEMENTS.characters.normal) + visibleCount(ACHIEVEMENTS.characters.tainted), characterColumns),
+      achievementSection('挑战开放类', visibleCount(ACHIEVEMENTS.challengeUnlock), achievementTable(ACHIEVEMENTS.challengeUnlock)),
+      achievementSection('挑战通关类', challengeClearAchievements.length, achievementTable(challengeClearAchievements)),
+      achievementSection('次数 / 累计型成就', visibleCount(ACHIEVEMENTS.cumulative), achievementTable(ACHIEVEMENTS.cumulative)),
+      achievementSection('完成类成就', visibleCount(ACHIEVEMENTS.completion), achievementTable(ACHIEVEMENTS.completion))
     ].join('');
   }
 
