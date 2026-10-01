@@ -101,6 +101,8 @@ python tools/build_challenges.py "你的成就页面.html"
 
 脚本会把灰机页解析出的 `prerequisiteAchievementId` / `rewardAchievementId` 与 `tools/challenge_rewards.json` 中的奖励元数据合并，从零生成 45 条挑战数据。`data/challenges.js` 不包含 priority。挑战页面通过前置成就 ID 判断挑战是否已经开放，通过奖励成就 ID 判断挑战是否已经完成。
 
+挑战奖励成就的中文名称以灰机 Wiki 成就数据表为准；当成就名称不同于奖励名称时，在 `tools/challenge_rewards.json` 中单独记录 `achievementName`。
+
 ## 3. 重新生成其余成就页数据
 
 把灰机 Wiki 的全成就页 `https://isaac.huijiwiki.com/wiki/%E6%88%90%E5%B0%B1` 另存为 HTML，并确认 `tools/achievement_index.json` 中维护了原有分类、`tools/achievement_extras.json` 中维护了挑战开放成就及版本条件后运行：

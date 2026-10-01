@@ -49,7 +49,7 @@
   const challengeClearAchievements = CHALLENGES.map((challenge) => ({
     achievementId: Number(challenge.rewardAchievementId),
     challengeId: Number(challenge.challengeId),
-    name: challenge.rewardName,
+    name: challenge.achievementName || challenge.rewardName,
     condition: `通过挑战 #${challenge.challengeId}。`,
     rewardName: challenge.rewardName,
     rewardEffect: challenge.effect

@@ -18,6 +18,18 @@ def main() -> None:
     unlocks = load_script_data("unlocks.js")
     challenges = load_script_data("challenges.js")["entries"]
     achievements = load_script_data("achievements.js")
+    challenge_seed = json.loads((ROOT / "tools" / "challenge_rewards.json").read_text("utf-8"))
+    challenge_names = {
+        entry["challengeId"]: entry.get("achievementName", entry["rewardName"])
+        for entry in challenge_seed["entries"]
+    }
+    if len(challenge_names) != len(challenges) or any(
+        challenge.get("achievementName", challenge["rewardName"]) != challenge_names.get(challenge["challengeId"])
+        for challenge in challenges
+    ):
+        raise SystemExit("挑战奖励成就名称与源数据不一致")
+    if any(not any("\u4e00" <= character <= "\u9fff" for character in name) for name in challenge_names.values()):
+        raise SystemExit("挑战奖励成就缺少中文名称")
     boss_ids = {rule["achievementId"] for rule in unlocks["unlockRules"]}
     lists = [
         achievements["main"],
@@ -33,6 +45,8 @@ def main() -> None:
         raise SystemExit("成就分类中存在重复 ID")
     if any(not entry["condition"].strip() for entry in entries):
         raise SystemExit("成就分类中存在空白解锁条件")
+    if any(not any("\u4e00" <= character <= "\u9fff" for character in entry["condition"]) for entry in entries):
+        raise SystemExit("成就分类中存在非中文解锁条件")
 
     prerequisite_ids = {challenge["prerequisiteAchievementId"] for challenge in challenges}
     prerequisite_ids.discard(None)
