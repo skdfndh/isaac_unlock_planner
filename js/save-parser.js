@@ -43,6 +43,20 @@
       const value = dv.getUint8(cursor + i);
       if (i < achievementCount) achievements.push(value > 0);
     }
+    cursor += blockSize;
+
+    let eventCounters = null;
+    if (cursor + 12 <= dv.byteLength && dv.getUint32(cursor, true) === 2) {
+      const eventSize = dv.getUint32(cursor + 4, true);
+      const eventCount = dv.getUint32(cursor + 8, true);
+      cursor += 12;
+      if (eventCount <= Math.floor((dv.byteLength - cursor) / 4) && eventSize === eventCount * 4) {
+        eventCounters = [];
+        for (let i = 0; i < eventCount; i += 1) {
+          eventCounters.push(dv.getInt32(cursor + i * 4, true));
+        }
+      }
+    }
 
     let unlockedCount = 0;
     for (let i = 1; i < achievements.length; i += 1) if (achievements[i]) unlockedCount += 1;
@@ -53,9 +67,15 @@
       achievementBlockSize: blockSize,
       achievementCount,
       achievements,
+      eventCounters,
       unlockedCount,
       isAchievementUnlocked(id) {
         return Number.isInteger(id) && id >= 0 && id < achievements.length && achievements[id] === true;
+      },
+      getEventCounter(id) {
+        return Number.isInteger(id) && eventCounters && id >= 0 && id < eventCounters.length
+          ? eventCounters[id]
+          : null;
       }
     };
   }

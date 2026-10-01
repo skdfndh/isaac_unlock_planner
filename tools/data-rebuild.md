@@ -223,13 +223,14 @@ window.ISAAC_OVERRIDES = {
 
 ## 存档解析
 
-`js/save-parser.js` 只读取当前工具需要的 Achievement block：
+`js/save-parser.js` 读取当前工具需要的 Achievement block 和 Event Counters block：
 
 - 校验 16 字节魔数 `ISAACNGSAVE09R  `
 - 跳过 `0x10` 的 32-bit header word
 - 要求第一个 block type 为 `1`
 - 读取 `blockSize` / `achievementCount`
 - 用 `achievements[achievementId]` 判断是否解锁
+- 在存在且长度有效时读取第二个 block（type `2`）的 32 位事件计数器；缺失或无效时不推测次数
 
 因此工具不会修改存档，也不需要 CRC 写回逻辑。
 
@@ -238,6 +239,7 @@ window.ISAAC_OVERRIDES = {
 - 页面打开时默认按重要度排序。
 - 挑战页默认同样按重要度排序；切换“默认顺序”后按挑战 ID 从小到大排列。
 - 其余成就页默认按重要度排序；角色解锁类没有“奖励”列，其余成就列表保留奖励名称与效果。成就 #199 已在角色 / Boss 页展示，因此不在其余成就页重复列出。
+- 次数 / 累计型成就读取存档后显示可核对的事件计数器及目标次数；无法由存档准确读取的条目标明“存档不提供当前次数”。部分计数会重置，解锁状态仍以成就块为准。
 - 主线成就上方有横向 SVG 进度图；读取存档后，未解锁成就节点会显示为暗色。
 - Boss 默认顺序以 Boss Rush 开头，其次为妈妈的心。
 - 没有 EID 描述且不属于 Baby 的奖励，会显示统一说明：`解锁「XXX」这一非收藏道具 / 机制内容。`

@@ -63,6 +63,18 @@
     ACHIEVEMENTS.challengeUnlock
   ];
   const validAchievementListIds = new Set(achievementLists.flat().map((x) => Number(x.achievementId)));
+  const cumulativeCounterByAchievement = new Map([
+    [1, [150, 8, 139, 33, 140, 141, 10, 11, 342, 343, 344, 345]],
+    [20, [134, 151, 135, 152, 136, 153, 137, 154, 59, 138]],
+    [115, [242, 243, 244, 245, 246, 247, 248, 341, 249, 250, 275]],
+    [16, [142, 376, 383]],
+    [3, [28, 12]], [2, [85, 350]], [202, [359, 385]], [15, [66, 380]],
+    [9, [26]], [10, [30]], [7, [36]], [12, [61]], [14, [64]], [11, [68]],
+    [5, [145]], [17, [147]], [18, [148]], [22, [322]], [190, [325]],
+    [192, [336]], [194, [353]], [193, [354]], [195, [358]], [196, [362]],
+    [197, [364]], [198, [371]], [200, [377]], [201, [382]], [493, [409]],
+    [495, [523]], [494, [545]]
+  ].flatMap(([counterId, achievementIds]) => achievementIds.map((achievementId) => [achievementId, counterId])));
   const builtinProfiles = new Map((PROFILE_BUNDLE.profiles || []).map((x) => [x.id, x]));
 
   const runtimePriority = {
@@ -980,7 +992,18 @@
     return `<div class="achievement-reward"><strong>${esc(entry.rewardName)}</strong>${effect}</div>`;
   }
 
-  function achievementTable(entries, { characterStartIndex = null, showReward = true } = {}) {
+  function cumulativeProgress(entry) {
+    if (!state.save) return '';
+    const counterId = cumulativeCounterByAchievement.get(entry.achievementId);
+    const count = counterId == null ? null : state.save.getEventCounter(counterId);
+    const goal = Number(entry.condition.match(/\d+/)?.[0]);
+    if (count == null || count < 0 || !Number.isFinite(goal)) {
+      return '<div class="achievement-progress unavailable">存档不提供当前次数</div>';
+    }
+    return `<div class="achievement-progress">存档当前计数：<strong>${count} / ${goal}</strong></div>`;
+  }
+
+  function achievementTable(entries, { characterStartIndex = null, showReward = true, showProgress = false } = {}) {
     const rows = sortedAchievementRows(entries);
     const characterByAchievement = characterStartIndex == null
       ? new Map()
@@ -996,7 +1019,7 @@
         : achievementSprite(entry.achievementId);
       return `<tr class="unlock-row priority-${priority}${groupStart}">
         <td><div class="reward-cell">${icon}<div><div class="reward-name"><a class="reward-link" href="${esc(wikiUrl)}" target="_blank" rel="noopener noreferrer">${esc(entry.name)}</a>${priorityPill(priority)}</div><div class="meta-line">成就 ID #${entry.achievementId}</div></div></div></td>
-        <td><div class="achievement-condition">${esc(entry.condition)}</div></td>
+        <td><div class="achievement-condition">${esc(entry.condition)}</div>${showProgress ? cumulativeProgress(entry) : ''}</td>
         ${showReward ? `<td>${achievementReward(entry)}</td>` : ''}
         <td>${statusBadge(unlocked)}</td>
         <td class="row-options">${entry.challengeId == null
@@ -1047,7 +1070,9 @@
       achievementSection('角色解锁类', visibleCount(ACHIEVEMENTS.characters.normal) + visibleCount(ACHIEVEMENTS.characters.tainted), characterColumns),
       achievementSection('挑战开放类', visibleCount(ACHIEVEMENTS.challengeUnlock), achievementTable(ACHIEVEMENTS.challengeUnlock)),
       achievementSection('挑战通关类', challengeClearAchievements.length, achievementTable(challengeClearAchievements)),
-      achievementSection('次数 / 累计型成就', visibleCount(ACHIEVEMENTS.cumulative), achievementTable(ACHIEVEMENTS.cumulative)),
+      achievementSection('次数 / 累计型成就', visibleCount(ACHIEVEMENTS.cumulative),
+        '<p class="achievement-progress-hint">读取存档后显示可读取的当前次数。部分计数会重置，是否解锁以成就记录为准。</p>'
+        + achievementTable(ACHIEVEMENTS.cumulative, { showProgress: true })),
       achievementSection('完成类成就', visibleCount(ACHIEVEMENTS.completion), achievementTable(ACHIEVEMENTS.completion))
     ].join('');
   }

@@ -151,7 +151,7 @@ h2 { margin: 4px 0 0; font-size: 23px; }
 
 .achievement-sprite {
   width: 64px; height: 64px; flex: 0 0 64px; display: inline-block;
-  background-image: url("./assets/achievement/Achievement_sprite.jpg?v=20261001213846");
+  background-image: url("./assets/achievement/Achievement_sprite.jpg?v=20261001215631");
   background-repeat: no-repeat;
   background-size: 1280px 2112px;
   background-position: var(--ach-x) var(--ach-y);
@@ -227,6 +227,9 @@ code { background: rgba(255,255,255,.05); padding: 2px 5px; border-radius: 5px; 
 .achievement-table .reward-cell { min-width: 220px; }
 .achievement-table.without-reward .reward-cell { min-width: 204px; }
 .achievement-condition { min-width: 180px; max-width: 420px; font-size: 12px; line-height: 1.6; }
+.achievement-progress { margin-top: 5px; color: #e7c47b; font-size: 11px; }
+.achievement-progress.unavailable { color: #c0b8b0; }
+.achievement-progress-hint { margin: 0 0 12px; color: #c0b8b0; font-size: 12px; }
 .achievement-reward { min-width: 180px; font-size: 12px; line-height: 1.55; }
 .achievement-reward > strong, .achievement-reward > span { display: block; }
 .achievement-reward-effect { margin-top: 5px; color: rgba(243,238,231,.8); white-space: pre-line; }

@@ -616,7 +616,7 @@ window.ISAAC_ACHIEVEMENT_DATA = {
     {
       "achievementId": 343,
       "name": "水淹！",
-      "condition": "击败它还活着16次。",
+      "condition": "累计击败妈妈的心脏或它还活着16次。",
       "rewardName": "淹水洞穴",
       "rewardEffect": "",
       "rewardEntities": [],
@@ -626,7 +626,7 @@ window.ISAAC_ACHIEVEMENT_DATA = {
     {
       "achievementId": 344,
       "name": "阴冷！",
-      "condition": "击败它还活着21次。",
+      "condition": "累计击败妈妈的心脏或它还活着21次。",
       "rewardName": "阴湿深牢",
       "rewardEffect": "",
       "rewardEntities": [],
@@ -636,7 +636,7 @@ window.ISAAC_ACHIEVEMENT_DATA = {
     {
       "achievementId": 345,
       "name": "瘢痕！",
-      "condition": "击败它还活着30次。",
+      "condition": "累计击败妈妈的心脏或它还活着30次。",
       "rewardName": "结痂子宫",
       "rewardEffect": "",
       "rewardEntities": [],
@@ -1538,7 +1538,7 @@ window.ISAAC_ACHIEVEMENT_DATA = {
     {
       "achievementId": 362,
       "name": "卡牌先祖召唤",
-      "condition": "使用卡牌20次。",
+      "condition": "使用卡牌或符文20次。",
       "rewardName": "先祖召唤",
       "rewardEffect": "生成3随机卡牌",
       "rewardEntities": [
