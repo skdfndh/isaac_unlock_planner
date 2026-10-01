@@ -1302,7 +1302,7 @@ window.ISAAC_ACHIEVEMENT_DATA = {
     {
       "achievementId": 64,
       "name": "假币",
-      "condition": "在赌博乞丐处赌博100次。",
+      "condition": "在赌博乞丐或赌命乞丐处累计赌博100次。",
       "rewardName": "假币",
       "rewardEffect": "拾起硬币时, 有50%概率再获得1硬币",
       "rewardEntities": [
@@ -1908,7 +1908,7 @@ window.ISAAC_ACHIEVEMENT_DATA = {
     {
       "achievementId": 27,
       "name": "光环",
-      "condition": "使用 圣经击败妈妈、妈妈的心脏或它还活着。",
+      "condition": "使用圣经或XV-恶魔？击败妈妈、妈妈的心脏或它还活着。",
       "rewardName": "光环",
       "rewardEffect": "↑ +1心之容器\n↑ 移速+0.3\n↑ 射速+0.2\n↑ 伤害+0.3\n↑ 射程+1.5\n治疗1红心",
       "rewardEntities": [
@@ -2078,7 +2078,7 @@ window.ISAAC_ACHIEVEMENT_DATA = {
     {
       "achievementId": 86,
       "name": "地窖",
-      "condition": "击败地下室中的所有头目各1次。",
+      "condition": "击败地下室的所有头目各1次，糖梅宝宝除外；击败地点不限。",
       "rewardName": "地窖",
       "rewardEffect": "",
       "rewardEntities": [],
@@ -2088,7 +2088,7 @@ window.ISAAC_ACHIEVEMENT_DATA = {
     {
       "achievementId": 87,
       "name": "墓穴",
-      "condition": "击败洞穴中的所有头目各1次。",
+      "condition": "击败洞穴的所有头目各1次，大乞丐宝除外；击败地点不限。",
       "rewardName": "墓穴",
       "rewardEffect": "",
       "rewardEntities": [],
@@ -2098,7 +2098,7 @@ window.ISAAC_ACHIEVEMENT_DATA = {
     {
       "achievementId": 88,
       "name": "坟场",
-      "condition": "击败深牢中的所有头目各1次。",
+      "condition": "击败深牢的所有头目各1次，裂面爬墙蛛除外；击败地点不限。",
       "rewardName": "坟场",
       "rewardEffect": "",
       "rewardEntities": [],
@@ -2262,7 +2262,7 @@ window.ISAAC_ACHIEVEMENT_DATA = {
     {
       "achievementId": 258,
       "name": "亮瞎宝宝",
-      "condition": "使用 空白卡牌触发 XIX-太阳。",
+      "condition": "携带XIX-太阳时使用空白卡牌。",
       "rewardName": "亮瞎宝宝",
       "rewardEffect": "",
       "rewardEntities": [],
@@ -2392,7 +2392,7 @@ window.ISAAC_ACHIEVEMENT_DATA = {
     {
       "achievementId": 327,
       "name": "这就是钥匙",
-      "condition": "在不拾取心、硬币和炸弹的情况下，击败羔羊。",
+      "condition": "整局游戏中不拾取心、硬币或炸弹，击败羔羊；跟班或头目代为拾取也会使条件失败。",
       "rewardName": "黑桃A",
       "rewardEffect": "将所有掉落物, 箱子和非头目敌人变成钥匙",
       "rewardEntities": [

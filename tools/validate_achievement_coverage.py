@@ -18,6 +18,9 @@ def main() -> None:
     unlocks = load_script_data("unlocks.js")
     challenges = load_script_data("challenges.js")["entries"]
     achievements = load_script_data("achievements.js")
+    condition_overrides = json.loads(
+        (ROOT / "tools" / "achievement_extras.json").read_text("utf-8")
+    )["conditionOverrides"]
     challenge_seed = json.loads((ROOT / "tools" / "challenge_rewards.json").read_text("utf-8"))
     challenge_names = {
         entry["challengeId"]: entry.get("achievementName", entry["rewardName"])
@@ -40,6 +43,12 @@ def main() -> None:
         achievements["challengeUnlock"],
     ]
     entries = [entry for group in lists for entry in group]
+    entry_by_id = {str(entry["achievementId"]): entry for entry in entries}
+    if any(
+        entry_by_id.get(achievement_id, {}).get("condition") != condition
+        for achievement_id, condition in condition_overrides.items()
+    ):
+        raise SystemExit("成就解锁条件与已核对的版本条件不一致")
     listed_ids = [entry["achievementId"] for entry in entries]
     if len(listed_ids) != len(set(listed_ids)):
         raise SystemExit("成就分类中存在重复 ID")
