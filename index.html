@@ -9,8 +9,8 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <title>以撒开荒解锁规划器</title>
-  <link rel="icon" type="image/png" href="./assets/icon.png?v=20261001215631" />
-  <link rel="stylesheet" href="./styles.css?v=20261001215631" />
+  <link rel="icon" type="image/png" href="./assets/icon.png?v=20261004133546" />
+  <link rel="stylesheet" href="./styles.css?v=20261004133546" />
 </head>
 <body>
   <div class="app-shell">
@@ -50,6 +50,15 @@
       <button class="page-tab" type="button" data-view="challenge">挑战解锁</button>
       <button class="page-tab" type="button" data-view="achievement">其余成就</button>
     </nav>
+
+    <section class="search-section" role="search" aria-label="搜索成就和解锁道具">
+      <label for="searchInput">搜索成就或解锁道具</label>
+      <input id="searchInput" type="search" placeholder="输入名称或成就 ID，例如：以撒的头、#70" autocomplete="off" aria-controls="searchResults" aria-expanded="false" />
+      <div class="search-results" id="searchResults" hidden>
+        <p id="searchSummary" role="status" aria-live="polite"></p>
+        <div id="searchMatches"></div>
+      </div>
+    </section>
 
     <main>
       <section class="selector-section" id="selectorSection">
@@ -129,14 +138,14 @@
     </footer>
   </div>
 
-  <!-- CACHE_VERSION: 20261001215631。发布新版本前运行 python tools/bump_cache_version.py -->
-  <script src="./data/unlocks.js?v=20261001215631"></script>
-  <script src="./data/challenges.js?v=20261001215631"></script>
-  <script src="./data/achievements.js?v=20261001215631"></script>
-  <script src="./data/effects.js?v=20261001215631"></script>
-  <script src="./data/overrides.js?v=20261001215631"></script>
-  <script src="./data/recommendation_profiles.js?v=20261001215631"></script>
-  <script src="./js/save-parser.js?v=20261001215631"></script>
-  <script src="./js/app.js?v=20261001215631"></script>
+  <!-- CACHE_VERSION: 20261004133546。发布新版本前运行 python tools/bump_cache_version.py -->
+  <script src="./data/unlocks.js?v=20261004133546"></script>
+  <script src="./data/challenges.js?v=20261004133546"></script>
+  <script src="./data/achievements.js?v=20261004133546"></script>
+  <script src="./data/effects.js?v=20261004133546"></script>
+  <script src="./data/overrides.js?v=20261004133546"></script>
+  <script src="./data/recommendation_profiles.js?v=20261004133546"></script>
+  <script src="./js/save-parser.js?v=20261004133546"></script>
+  <script src="./js/app.js?v=20261004133546"></script>
 </body>
 </html>

@@ -99,6 +99,10 @@
   };
 
   const el = {
+    searchInput: document.getElementById('searchInput'),
+    searchResults: document.getElementById('searchResults'),
+    searchSummary: document.getElementById('searchSummary'),
+    searchMatches: document.getElementById('searchMatches'),
     selectorSection: document.getElementById('selectorSection'),
     grid: document.getElementById('entityGrid'),
     selectorKicker: document.getElementById('selectorKicker'),
@@ -383,6 +387,102 @@
     if (!state.save) return null;
     if (aid >= state.save.achievements.length) return 'unavailable';
     return state.save.isAchievementUnlocked(aid);
+  }
+
+  const searchEntries = [
+    ...DATA.unlockRules.map((rule) => {
+      const reward = rewardFor(rule.achievementId);
+      const character = characters.get(rule.characterId);
+      return {
+        achievementId: rule.achievementId,
+        view: 'character',
+        characterId: rule.characterId,
+        name: reward.name,
+        rewardName: reward.name,
+        condition: reward.condition,
+        alias: DATA.achievementCatalog[String(rule.achievementId)]?.name || '',
+        location: `按角色 · ${character?.name || ''} · ${rule.bossIds.map((id) => bosses.get(id)?.name || id).join(' + ')}`
+      };
+    }),
+    ...[
+      ['主线成就', ACHIEVEMENTS.main],
+      ['角色解锁类', [...ACHIEVEMENTS.characters.normal, ...ACHIEVEMENTS.characters.tainted]],
+      ['挑战开放类', ACHIEVEMENTS.challengeUnlock],
+      ['挑战通关类', challengeClearAchievements],
+      ['次数 / 累计型成就', ACHIEVEMENTS.cumulative],
+      ['完成类成就', ACHIEVEMENTS.completion]
+    ].flatMap(([category, entries]) => entries
+      .filter((entry) => !bossAchievementIds.has(Number(entry.achievementId)))
+      .map((entry) => ({
+        achievementId: entry.achievementId,
+        view: 'achievement',
+        name: entry.name,
+        rewardName: entry.rewardName || '',
+        condition: entry.condition,
+        alias: EFFECTS[String(entry.achievementId)]?.name || '',
+        location: `其余成就 · ${category}`
+      })))
+  ];
+  const searchEntriesById = new Map(searchEntries.map((entry) => [Number(entry.achievementId), entry]));
+
+  function searchScore(entry, query) {
+    const id = String(entry.achievementId);
+    const plainQuery = query.replace(/^#/, '');
+    if (/^#?\d+$/.test(query) && id === plainQuery) return 0;
+    const names = [entry.name, entry.rewardName, entry.alias].map((value) => String(value).toLowerCase());
+    if (names.some((value) => value === query)) return 1;
+    if (names.some((value) => value.startsWith(query))) return 2;
+    if (names.some((value) => value.includes(query))) return 3;
+    if (String(entry.condition || '').toLowerCase().includes(query)) return 4;
+    if (/^#?\d+$/.test(query) && id.includes(plainQuery)) return 5;
+    return -1;
+  }
+
+  function closeSearchResults() {
+    el.searchResults.hidden = true;
+    el.searchInput.setAttribute('aria-expanded', 'false');
+  }
+
+  function renderSearchResults() {
+    const query = el.searchInput.value.trim().toLowerCase();
+    if (!query) { closeSearchResults(); return; }
+    const matches = searchEntries.map((entry) => ({ entry, score: searchScore(entry, query) }))
+      .filter(({ score }) => score >= 0)
+      .sort((a, b) => a.score - b.score || Number(a.entry.achievementId) - Number(b.entry.achievementId));
+    const shown = matches.slice(0, 30);
+    el.searchSummary.textContent = matches.length
+      ? `找到 ${matches.length} 个结果${matches.length > shown.length ? '，显示前 30 个；可继续输入缩小范围' : ''}`
+      : '没有找到匹配的成就或解锁道具';
+    el.searchMatches.innerHTML = shown.map(({ entry }) => `<button type="button" class="search-result" data-search-id="${entry.achievementId}">
+      <strong>${esc(entry.name)} · 成就 #${entry.achievementId}</strong>
+      <span>${esc(entry.location)}${entry.rewardName && entry.rewardName !== entry.name ? ` · 解锁「${esc(entry.rewardName)}」` : ''}</span>
+    </button>`).join('');
+    el.searchResults.hidden = false;
+    el.searchInput.setAttribute('aria-expanded', 'true');
+  }
+
+  function locateSearchResult(achievementId) {
+    const entry = searchEntriesById.get(Number(achievementId));
+    if (!entry) return;
+    state.view = entry.view;
+    if (entry.characterId) state.selectedCharacterId = entry.characterId;
+    if (!state.showUnlocked && unlockStatus(entry.achievementId) === true) {
+      state.showUnlocked = true;
+      persistUiPreferences();
+    }
+    closeSearchResults();
+    render();
+    const container = entry.view === 'achievement' ? el.achievementResults : el.tableBody;
+    const row = container.querySelector(`tr[data-achievement-id="${entry.achievementId}"]`);
+    if (!row) { showToast('未找到对应条目'); return; }
+    row.classList.add('search-target');
+    row.tabIndex = -1;
+    requestAnimationFrame(() => {
+      const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+      row.scrollIntoView({ behavior, block: 'center', inline: 'nearest' });
+      row.focus({ preventScroll: true });
+    });
+    window.setTimeout(() => row.classList.remove('search-target'), 3500);
   }
 
   function statusBadge(unlocked) {
@@ -923,7 +1023,7 @@
       const effectEntry = EFFECTS[String(challenge.rewardAchievementId)] || null;
       const rewardName = effectEntry?.name || challenge.rewardName;
       const effectText = effectEntry?.effect || challenge.effect || `解锁「${rewardName}」这一非收藏道具 / 机制内容。`;
-      return `<tr class="unlock-row priority-${priority}">
+      return `<tr class="unlock-row priority-${priority}" data-achievement-id="${challenge.rewardAchievementId}">
         <td><div class="challenge-id-cell"><a class="challenge-id-link" href="${esc(challengeWiki)}" target="_blank" rel="noopener noreferrer">#${challenge.challengeId}</a>${priorityPill(priority)}</div></td>
         <td>${challengePrerequisiteCell(challenge, prerequisiteUnlocked)}</td>
         <td><div class="reward-cell">${rewardImage}<div><div class="reward-name"><a class="reward-link" href="${esc(rewardWiki)}" target="_blank" rel="noopener noreferrer">${esc(rewardName)}</a></div><div class="meta-line">奖励成就 ID #${challenge.rewardAchievementId}</div></div></div></td>
@@ -956,7 +1056,7 @@
       const effectText = rawEffectText && String(reward.source || '').startsWith('eid-') ? String(rawEffectText).replace(/；\s*/g, '\n') : rawEffectText;
       const effect = effectText ? `<div class="effect-text">${esc(effectText)}</div>` : '<div class="effect-text effect-missing">效果说明待补充</div>';
       const wikiUrl = `https://isaac.huijiwiki.com/wiki/${encodeURIComponent('成就')}/${rule.achievementId}`;
-      return `<tr class="unlock-row priority-${priority}">
+      return `<tr class="unlock-row priority-${priority}" data-achievement-id="${rule.achievementId}">
         <td>${targetCell(rule)}</td>
         <td><div class="reward-cell">${rewardImage}<div><div class="reward-name"><a class="reward-link" href="${esc(wikiUrl)}" target="_blank" rel="noopener noreferrer">${esc(reward.name)}</a>${priorityPill(priority)}</div><div class="meta-line">成就 ID #${rule.achievementId}</div></div></div></td>
         <td>${effect}</td>
@@ -1017,7 +1117,7 @@
       const icon = character
         ? safeImage([characterLocalImage(character), character.image], 'reward-thumb')
         : achievementSprite(entry.achievementId);
-      return `<tr class="unlock-row priority-${priority}${groupStart}">
+      return `<tr class="unlock-row priority-${priority}${groupStart}" data-achievement-id="${entry.achievementId}">
         <td><div class="reward-cell">${icon}<div><div class="reward-name"><a class="reward-link" href="${esc(wikiUrl)}" target="_blank" rel="noopener noreferrer">${esc(entry.name)}</a>${priorityPill(priority)}</div><div class="meta-line">成就 ID #${entry.achievementId}</div></div></div></td>
         <td><div class="achievement-condition">${esc(entry.condition)}</div>${showProgress ? cumulativeProgress(entry) : ''}</td>
         ${showReward ? `<td>${achievementReward(entry)}</td>` : ''}
@@ -1125,8 +1225,23 @@
 
   // ---------- Events ----------
 
+  el.searchInput.addEventListener('input', renderSearchResults);
+  el.searchInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      el.searchInput.value = '';
+      closeSearchResults();
+    } else if (event.key === 'Enter') {
+      const first = el.searchMatches.querySelector('[data-search-id]');
+      if (first && !el.searchResults.hidden) locateSearchResult(first.dataset.searchId);
+    }
+  });
+  el.searchMatches.addEventListener('click', (event) => {
+    const result = event.target.closest('[data-search-id]');
+    if (result) locateSearchResult(result.dataset.searchId);
+  });
+
   document.querySelectorAll('.page-tab').forEach((button) => {
-    button.addEventListener('click', () => { state.view = button.dataset.view; render(); });
+    button.addEventListener('click', () => { state.view = button.dataset.view; closeSearchResults(); render(); });
   });
 
   document.querySelectorAll('.segment').forEach((button) => {

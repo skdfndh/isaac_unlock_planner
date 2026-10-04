@@ -88,6 +88,21 @@ h2 { margin: 4px 0 0; font-size: 23px; }
 .page-tab { border: 0; border-bottom: 2px solid transparent; background: transparent; padding: 13px 18px 12px; color: var(--muted); cursor: pointer; font-weight: 800; }
 .page-tab:hover { color: var(--ink); }
 .page-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.search-section { margin-top: 20px; max-width: 680px; }
+.search-section label { display: block; margin-bottom: 8px; color: #d8cfc7; font-size: 13px; font-weight: 800; }
+.search-section input { width: 100%; padding: 11px 13px; border: 1px solid #62574f; border-radius: 10px; background: #201c19; color: var(--ink); }
+.search-section input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.search-section input::placeholder { color: #968c84; }
+.search-results { max-height: 340px; overflow-y: auto; margin-top: 8px; border: 1px solid var(--line); border-radius: 10px; background: #201c19; }
+.search-results[hidden] { display: none; }
+.search-results p { margin: 0; padding: 10px 12px; color: var(--muted); font-size: 12px; }
+.search-result { display: block; width: 100%; padding: 10px 12px; border: 0; border-top: 1px solid var(--line); background: transparent; text-align: left; cursor: pointer; }
+.search-result:hover, .search-result:focus-visible { background: #39312c; outline: none; }
+.search-result strong, .search-result span { display: block; }
+.search-result strong { color: #fff1cc; font-size: 13px; }
+.search-result span { margin-top: 3px; color: var(--muted); font-size: 11px; }
+.unlock-row.search-target td { box-shadow: inset 0 0 0 2px var(--accent); }
+.unlock-row.search-target { outline: none; }
 .selector-section, .results-section { margin-top: 30px; }
 .section-heading { display: flex; justify-content: space-between; gap: 18px; align-items: end; }
 .results-heading { display: flex; justify-content: flex-end; gap: 18px; align-items: center; }
@@ -151,7 +166,7 @@ h2 { margin: 4px 0 0; font-size: 23px; }
 
 .achievement-sprite {
   width: 64px; height: 64px; flex: 0 0 64px; display: inline-block;
-  background-image: url("./assets/achievement/Achievement_sprite.jpg?v=20261001215631");
+  background-image: url("./assets/achievement/Achievement_sprite.jpg?v=20261004133546");
   background-repeat: no-repeat;
   background-size: 1280px 2112px;
   background-position: var(--ach-x) var(--ach-y);

@@ -2,12 +2,13 @@
 
 一个纯前端的《以撒的结合》开荒解锁规划器。浏览器直接读取 `persistentgamedata*.dat` 的成就块，根据角色、Boss、挑战和其他成就展示解锁奖励，并用推荐优先级帮助新档决定先刷什么。
 
-[点击这里尝试](https://momo-tori.github.io/isaac_unlock_planner/)
+[点击这里尝试](https://skdfndh.github.io/isaac_unlock_planner/)
 
 ## 主要功能
 
 - 本地读取 `persistentgamedata*.dat`，不会上传存档。
 - 按 **角色 / Boss / 挑战解锁 / 其余成就** 查看解锁进度；其余成就页列出角色 Boss 页之外的 301 个成就及其解锁条件。
+- 搜索成就名称、解锁道具名称或成就 ID，点击结果定位到对应条目。
 - 默认按重要度排序，也可以切换回默认顺序。
 - 支持隐藏已解锁目标，只保留还需要完成的内容。
 - 支持在页面内调整推荐优先级，并导出 / 导入本地推荐配置。
