@@ -43,6 +43,10 @@
   const characters = byId(DATA.characters);
   const bosses = byId(DATA.bosses);
   const rulesById = new Map(DATA.unlockRules.map((rule) => [rule.id, rule]));
+  const unlockRulesByCharacter = new Map(DATA.characters.map((character) => [
+    character.id,
+    DATA.unlockRules.filter((rule) => rule.characterId === character.id)
+  ]));
   const validPairs = new Set(DATA.unlockRules.flatMap((rule) => rule.bossIds.map((bossId) => pairKey(rule.characterId, bossId))));
   const validChallengeIds = new Set(CHALLENGES.map((x) => Number(x.challengeId)));
   const bossAchievementIds = new Set(DATA.unlockRules.map((rule) => Number(rule.achievementId)));
@@ -911,9 +915,13 @@
 
   function entityIconButton(item, isChar, activeId) {
     const active = item.id === activeId ? ' active' : '';
+    const hasAllMarks = isChar && state.save && unlockRulesByCharacter.get(item.id)?.length > 0
+      && unlockRulesByCharacter.get(item.id).every((rule) => unlockStatus(rule.achievementId) === true);
+    const completed = hasAllMarks ? ' complete-marks' : '';
+    const label = hasAllMarks ? `${item.name}，全部标记已完成` : item.name;
     const urls = isChar ? [characterLocalImage(item), item.image] : bossImage(item);
     const image = safeImage(urls, 'selector-thumb');
-    return `<button type="button" class="entity-icon-card${active}" data-entity="${esc(item.id)}" aria-label="${esc(item.name)}" title="${esc(item.name)}">${image}</button>`;
+    return `<button type="button" class="entity-icon-card${active}${completed}" data-entity="${esc(item.id)}" aria-label="${esc(label)}" title="${esc(label)}">${image}</button>`;
   }
 
   function renderEntityGrid() {
